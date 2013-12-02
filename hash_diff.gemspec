@@ -6,9 +6,9 @@ require 'hash_diff/version'
 Gem::Specification.new do |spec|
   spec.name          = "hash_diff"
   spec.version       = HashDiff::VERSION
-  spec.authors       = ["acuppy"]
-  spec.email         = ["acuppy@gmail.com"]
-  spec.description   = %q{Deep Hash comparison}
+  spec.authors       = ["Coding Zeal", "Adam Cuppy"]
+  spec.email         = ["info@codingzeal.com"]
+  spec.description   = %q{Diff tool for deep Ruby hash comparison}
   spec.summary       = %q{Deep Hash comparison}
   spec.homepage      = ""
   spec.license       = "MIT"
