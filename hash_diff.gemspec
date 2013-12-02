@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Coding Zeal", "Adam Cuppy"]
   spec.email         = ["info@codingzeal.com"]
   spec.description   = %q{Diff tool for deep Ruby hash comparison}
-  spec.summary       = %q{Deep Hash comparison}
+  spec.summary       = %q{Deep Ruby Hash comparison}
   spec.homepage      = "https://github.com/CodingZeal/hash_diff"
   spec.license       = "MIT"
 
