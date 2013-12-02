@@ -48,7 +48,7 @@ Easily find the differences between two Ruby hashes.
   hash_diff = HashDiff::Comparison.new( left, right )
 ```
 
-Comparion#diff returns the left and right side differences
+Comparison#diff returns the left and right side differences
 
 ```ruby
   hash_diff.diff # => { foo: ["bar", "bar2"], bar: ["foo", "foo2"], nested: { foo: ["bar", "bar2"], bar: { one: ["foo1", nil], two: [nil, "foo2"] } }, num:  [1, nil], word: [nil, "monkey"] }
