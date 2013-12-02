@@ -1,24 +1,25 @@
-require 'ostruct'
-
 module HashDiff
   class Comparison < Struct.new(:left, :right)
   
     def diff
-      @side ||= :both
       @diff ||= differences(left, right)
     end
 
     def left_diff
-      @side = :left
+      @concern = :left
       @left_diff ||= differences(left, right)
     end
 
     def right_diff
-      @side = :right
+      @concern = :right
       @right_diff ||= differences(left, right)
     end
 
     private
+
+    def concern
+      @concern ||= :both
+    end
 
     def clone(left, right)
       self.dup.tap do |inst|
@@ -28,7 +29,7 @@ module HashDiff
     end
 
     def differences(left, right)
-      combined_attribute_keys(left, right).reduce({}, &reduction_strategy)
+      combined_attribute_keys.reduce({}, &reduction_strategy)
     end
 
     def reduction_strategy(opts={})
@@ -38,32 +39,32 @@ module HashDiff
       end
     end
 
-    def combined_attribute_keys(left, right)
+    def combined_attribute_keys
       (left.keys + right.keys).uniq
     end
 
     def equal?(key)
-      left.key?(key) && right.key?(key) && left[key] == right[key]
+      left[key] == right[key]
     end
 
     def hash?(value)
       value.is_a? Hash
     end
 
-    def comparable_key?(key)
+    def comparable?(key)
       hash?(left[key]) and hash?(right[key])
     end
 
     def report(key)
-      if comparable_key?(key)
+      if comparable?(key)
         clone(left[key], right[key]).diff
       else
-        report_by_side(key)
+        report_concern(key)
       end
     end
 
-    def report_by_side(key)
-      case @side
+    def report_concern(key)
+      case concern
       when :left  then right[key]
       when :right then left[key]
       when :both  then [left[key], right[key]]
