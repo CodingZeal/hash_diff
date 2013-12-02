@@ -66,6 +66,29 @@ Comparison#right_diff returns only the right side differences
   hash_diff.right_diff # => { foo: "bar", bar: "foo", nested: { foo: "bar", bar: { one: "foo1", two: nil } }, num:  1, word: nil }
 ```
 
+You can also use these shorthand methods
+
+```ruby
+  HashDiff.diff(left, right)
+  HashDiff.left_diff(left, right)
+  HashDiff.right_diff(left, right)
+```
+
+Hash#diff is not provided by default, and monkey patching is frowned upon by some, but to provide a one way shorthand, use the following code snippet.
+
+```ruby
+  class Hash
+    def diff(right)
+      HashDiff.right_diff(self, right)
+    end
+  end
+
+  left  = { foo: 'bar', num: 1 }
+  right = { foo: 'baz', num: 1 }
+
+  left.diff(right) # => { foo: 'baz' }
+```
+
 ## Contributing
 
 1. Fork it
