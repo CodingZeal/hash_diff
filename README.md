@@ -1,5 +1,5 @@
 # HashDiff
-[![Code Climate](https://codeclimate.com/github/CodingZeal/hash_diff.png)](https://codeclimate.com/github/CodingZeal/hash_diff)
+[![Build Status](https://travis-ci.org/CodingZeal/hash_diff.png?branch=master)](https://travis-ci.org/CodingZeal/hash_diff) [![Code Climate](https://codeclimate.com/github/CodingZeal/hash_diff.png)](https://codeclimate.com/github/CodingZeal/hash_diff)
 
 Deep comparison of Ruby Hash objects
 
