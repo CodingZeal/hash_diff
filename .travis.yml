@@ -1,4 +1,6 @@
+script: "bundle exec rspec spec"
+
 language: ruby
-matrix:
-  include:
-    - rvm: 1.9.3
+
+rvm:
+  - 1.9.3
