@@ -80,7 +80,7 @@ Hash#diff is not provided by default, and monkey patching is frowned upon by som
 ```ruby
   class Hash
     def diff(right)
-      HashDiff.right_diff(self, right)
+      HashDiff.left_diff(self, right)
     end
   end
 
