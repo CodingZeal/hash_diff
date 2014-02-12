@@ -32,7 +32,7 @@ module HashDiff
       combined_attribute_keys.reduce({}, &reduction_strategy)
     end
 
-    def reduction_strategy(opts={})
+    def reduction_strategy
       lambda do |diff, key|
         diff[key] = report(key) if not equal?(key)
         diff
