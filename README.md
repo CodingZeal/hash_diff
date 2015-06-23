@@ -22,28 +22,28 @@ Or install it yourself as:
 Easily find the differences between two Ruby hashes.
 
 ```ruby
-  left = { 
-    foo: 'bar',  
-    bar: 'foo',  
-    nested: { 
-      foo: 'bar',  
-      bar: { 
-        one: 'foo1' 
-      } 
-    }, 
-    num: 1 
+  left = {
+    foo: 'bar',
+    bar: 'foo',
+    nested: {
+      foo: 'bar',
+      bar: {
+        one: 'foo1'
+      }
+    },
+    num: 1
   }
 
-  right = { 
-    foo: 'bar2', 
-    bar: 'foo2', 
-    nested: { 
-      foo: 'bar2', 
-      bar: { 
-        two: 'foo2' 
-      } 
-    }, 
-    word: 'monkey' 
+  right = {
+    foo: 'bar2',
+    bar: 'foo2',
+    nested: {
+      foo: 'bar2',
+      bar: {
+        two: 'foo2'
+      }
+    },
+    word: 'monkey'
   }
 
   hash_diff = HashDiff::Comparison.new( left, right )
@@ -75,14 +75,11 @@ You can also use these shorthand methods
   HashDiff.right_diff(left, right)
 ```
 
-Hash#diff is not provided by default, and monkey patching is frowned upon by some, but to provide a one way shorthand, use the following code snippet.
+Hash#diff is not provided by default, and monkey patching is frowned upon by some, but to provide a one way shorthand call `HashDiff.patch!`
 
 ```ruby
-  class Hash
-    def diff(right)
-      HashDiff.left_diff(self, right)
-    end
-  end
+  # run prior to implementation
+  HashDiff.patch!
 
   left  = { foo: 'bar', num: 1 }
   right = { foo: 'baz', num: 1 }
