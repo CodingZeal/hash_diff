@@ -5,28 +5,29 @@ describe HashDiff::Comparison do
   let(:app_v1_properties) { { foo: 'bar',  bar: 'foo',  nested: { foo: 'bar',  bar: { one: 'foo1' } }, num: 1 } }
   let(:app_v2_properties) { { foo: 'bar2', bar: 'foo2', nested: { foo: 'bar2', bar: { two: 'foo2' } }, word: 'monkey' } }
 
-  subject { HashDiff::Comparison.new(app_v1_properties, app_v2_properties) }
+  subject(:comparison) { HashDiff::Comparison.new(app_v1_properties, app_v2_properties) }
 
   describe "#diff" do
+    subject { comparison.diff }
 
     context "when different" do
-      let(:diff) { 
+      let(:diff) {
         {
-          foo: ["bar", "bar2"], 
-          bar: ["foo", "foo2"], 
+          foo: ["bar", "bar2"],
+          bar: ["foo", "foo2"],
           nested: {
-            foo: ["bar", "bar2"], 
+            foo: ["bar", "bar2"],
             bar: {
-              one: ["foo1", nil], 
+              one: ["foo1", nil],
               two: [nil, "foo2"]
             }
           },
-          num:  [1, nil], 
+          num:  [1, nil],
           word: [nil, "monkey"]
         }
       }
 
-      its(:diff) { should == diff }
+      it { expect(subject).to eq diff }
     end
 
     context "when similar" do
@@ -35,54 +36,58 @@ describe HashDiff::Comparison do
       context "in the same order" do
         let(:app_v2_properties) { app_v1_properties }
 
-        its(:diff) { should be_empty }
+        it { expect(subject).to be_empty }
       end
 
       context "in a different order" do
         let(:app_v2_properties) { { bar: 'foo', foo: 'bar' } }
 
-        its(:diff) { should be_empty }
+        it { expect(subject).to be_empty }
       end
     end
   end
 
   describe "#left_diff" do
-    let(:diff) { 
+    subject { comparison.left_diff }
+
+    let(:diff) {
       {
-        foo: "bar2", 
-        bar: "foo2", 
+        foo: "bar2",
+        bar: "foo2",
         nested: {
-          foo: "bar2", 
+          foo: "bar2",
           bar: {
-            one: nil, 
+            one: nil,
             two: "foo2"
           }
         },
-        num:  nil, 
+        num:  nil,
         word: "monkey"
       }
     }
 
-    its(:left_diff) { should == diff }
+    it { expect(subject).to eq diff }
   end
 
   describe "#right_diff" do
-    let(:diff) { 
+    subject { comparison.right_diff }
+
+    let(:diff) {
       {
-        foo: "bar", 
-        bar: "foo", 
+        foo: "bar",
+        bar: "foo",
         nested: {
-          foo: "bar", 
+          foo: "bar",
           bar: {
-            one: "foo1", 
+            one: "foo1",
             two: nil
           }
         },
-        num:  1, 
+        num:  1,
         word: nil
       }
     }
 
-    its(:right_diff) { should == diff }
+    it { expect(subject).to eq diff }
   end
 end
