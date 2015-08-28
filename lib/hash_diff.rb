@@ -20,7 +20,7 @@ module HashDiff
         def diff(right)
           HashDiff.left_diff(self, right)
         end
-      end unless self.class.respond_to?(:diff)
+      end unless Hash.new.respond_to?(:diff)
     end
   end
 end
