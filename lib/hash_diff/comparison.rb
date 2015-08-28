@@ -18,13 +18,6 @@ module HashDiff
 
     private
 
-    def clone(left, right)
-      self.dup.tap do |inst|
-        inst.left  = left
-        inst.right = right
-      end
-    end
-
     def reduction_strategy(reporter)
       lambda do |diff, key|
         diff[key] = report(key, reporter) if not equal?(key)
@@ -50,7 +43,7 @@ module HashDiff
 
     def report(key, reporter)
       if comparable?(key)
-        clone(left[key], right[key]).diff(&reporter)
+        self.class.new(left[key], right[key]).diff(&reporter)
       else
         reporter.call(left[key], right[key])
       end
