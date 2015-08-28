@@ -29,7 +29,7 @@ module HashDiff
 
     def comparison_strategy(reporter)
       lambda do |key, diff|
-        diff[key] = report_difference(key, reporter) if not equal?(key)
+        diff[key] = report_difference(key, reporter) unless equal?(key)
       end
     end
 
@@ -42,11 +42,11 @@ module HashDiff
     end
 
     def hash?(value)
-      value.is_a? Hash
+      value.is_a?(Hash)
     end
 
     def comparable?(key)
-      hash?(left[key]) and hash?(right[key])
+      hash?(left[key]) && hash?(right[key])
     end
 
     def report_difference(key, reporter)

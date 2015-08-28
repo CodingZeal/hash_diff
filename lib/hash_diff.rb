@@ -17,10 +17,10 @@ module HashDiff
 
     def patch!
       Hash.class_eval do
-        def diff right
-          HashDiff.left_diff self, right
+        def diff(right)
+          HashDiff.left_diff(self, right)
         end
-      end unless self.class.respond_to? :diff
+      end unless self.class.respond_to?(:diff)
     end
   end
 end
