@@ -16,15 +16,14 @@ module HashDiff
     protected
 
     def find_differences(&reporter)
-      combined_attribute_keys.reduce({ }, &reduction_strategy(reporter))
+      combined_attribute_keys.each_with_object({ }, &reduction_strategy(reporter))
     end
 
     private
 
     def reduction_strategy(reporter)
-      lambda do |diff, key|
+      lambda do |key, diff|
         diff[key] = report(key, reporter) if not equal?(key)
-        diff
       end
     end
 
