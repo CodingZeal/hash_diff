@@ -1,25 +1,22 @@
 module HashDiff
   class Comparison < Struct.new(:left, :right)
   
-    def diff
-      @diff ||= differences(left, right)
+    def diff(&reporter)
+      @diff ||= combined_attribute_keys.reduce(
+        { },
+        &reduction_strategy(reporter || ->(l, r) { [l, r] })
+      )
     end
 
     def left_diff
-      @concern = :left
-      @left_diff ||= differences(left, right)
+      @left_diff ||= diff { |_, r| r }
     end
 
     def right_diff
-      @concern = :right
-      @right_diff ||= differences(left, right)
+      @right_diff ||= diff { |l, _| l }
     end
 
     private
-
-    def concern
-      @concern ||= :both
-    end
 
     def clone(left, right)
       self.dup.tap do |inst|
@@ -28,13 +25,9 @@ module HashDiff
       end
     end
 
-    def differences(left, right)
-      combined_attribute_keys.reduce({}, &reduction_strategy)
-    end
-
-    def reduction_strategy
+    def reduction_strategy(reporter)
       lambda do |diff, key|
-        diff[key] = report(key) if not equal?(key)
+        diff[key] = report(key, reporter) if not equal?(key)
         diff
       end
     end
@@ -55,19 +48,11 @@ module HashDiff
       hash?(left[key]) and hash?(right[key])
     end
 
-    def report(key)
+    def report(key, reporter)
       if comparable?(key)
-        clone(left[key], right[key]).diff
+        clone(left[key], right[key]).diff(&reporter)
       else
-        report_concern(key)
-      end
-    end
-
-    def report_concern(key)
-      case concern
-      when :left  then right[key]
-      when :right then left[key]
-      when :both  then [left[key], right[key]]
+        reporter.call(left[key], right[key])
       end
     end
   end
