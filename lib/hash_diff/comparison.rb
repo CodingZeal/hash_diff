@@ -1,19 +1,22 @@
 module HashDiff
   class Comparison < Struct.new(:left, :right)
   
-    def diff(&reporter)
-      @diff ||= combined_attribute_keys.reduce(
-        { },
-        &reduction_strategy(reporter || ->(l, r) { [l, r] })
-      )
+    def diff
+      @diff ||= find_differences { |l, r| [l, r] }
     end
 
     def left_diff
-      @left_diff ||= diff { |_, r| r }
+      @left_diff ||= find_differences { |_, r| r }
     end
 
     def right_diff
-      @right_diff ||= diff { |l, _| l }
+      @right_diff ||= find_differences { |l, _| l }
+    end
+
+    protected
+
+    def find_differences(&reporter)
+      combined_attribute_keys.reduce({ }, &reduction_strategy(reporter))
     end
 
     private
@@ -43,7 +46,7 @@ module HashDiff
 
     def report(key, reporter)
       if comparable?(key)
-        self.class.new(left[key], right[key]).diff(&reporter)
+        self.class.new(left[key], right[key]).find_differences(&reporter)
       else
         reporter.call(left[key], right[key])
       end
