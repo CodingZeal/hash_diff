@@ -22,18 +22,18 @@ module HashDiff
     protected
 
     def find_differences(&reporter)
-      combined_attribute_keys.each_with_object({ }, &reduction_strategy(reporter))
+      combined_keys.each_with_object({ }, &comparison_strategy(reporter))
     end
 
     private
 
-    def reduction_strategy(reporter)
+    def comparison_strategy(reporter)
       lambda do |key, diff|
-        diff[key] = report(key, reporter) if not equal?(key)
+        diff[key] = report_difference(key, reporter) if not equal?(key)
       end
     end
 
-    def combined_attribute_keys
+    def combined_keys
       (left.keys + right.keys).uniq
     end
 
@@ -49,7 +49,7 @@ module HashDiff
       hash?(left[key]) and hash?(right[key])
     end
 
-    def report(key, reporter)
+    def report_difference(key, reporter)
       if comparable?(key)
         self.class.new(left[key], right[key]).find_differences(&reporter)
       else
