@@ -87,14 +87,11 @@ Hash#diff is not provided by default, and monkey patching is frowned upon by som
   left.diff(right) # => { foo: 'baz' }
 ```
 
-## Credits
+## License
 
-Authored by Adam Cuppy (@acuppy) of Coding ZEAL (http://codingzeal.com)
+Authored by the Engineering Team of [Coding ZEAL](https://codingzeal.com?utm_source=github)
 
-![Coding ZEAL](https://googledrive.com/host/0B3TWa6M1MsWeWmxRZWhscllwTzA/ZEAL-logo-final-150.png)
-
-This is freely distributed under the MIT license.  Use it, modify it,
-enjoy :)
+Copyright (c) 2017 Zeal, LLC.  Licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Contributing
 
