@@ -38,7 +38,7 @@ module HashDiff
     end
 
     def equal?(key)
-      left[key] == right[key]
+      value_with_default(left, key) == value_with_default(right, key)
     end
 
     def hash?(value)
@@ -53,8 +53,15 @@ module HashDiff
       if comparable?(key)
         self.class.new(left[key], right[key]).find_differences(&reporter)
       else
-        reporter.call(left[key], right[key])
+        reporter.call(
+          value_with_default(left, key),
+          value_with_default(right, key)
+        )
       end
+    end
+
+    def value_with_default(obj, key)
+      obj.fetch(key, NO_VALUE)
     end
   end
 end
