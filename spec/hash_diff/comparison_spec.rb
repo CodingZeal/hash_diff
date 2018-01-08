@@ -2,10 +2,37 @@ require "spec_helper"
 
 describe HashDiff::Comparison do
 
-  let(:app_v1_properties) { { foo: 'bar',  bar: 'foo',  nested: { foo: 'bar',  bar: { one: 'foo1' } }, num: 1 } }
-  let(:app_v2_properties) { { foo: 'bar2', bar: 'foo2', nested: { foo: 'bar2', bar: { two: 'foo2' } }, word: 'monkey' } }
+  let(:app_v1_properties) {
+    {
+      foo: 'bar',
+      bar: 'foo',
+      nested: {
+        foo: 'bar',
+        bar: {
+          one: 'foo1'
+        }
+      },
+      num: 1,
+      word: nil
+    }
+  }
+  let(:app_v2_properties) {
+    {
+      foo: 'bar2',
+      bar: 'foo2',
+      nested: {
+        foo: 'bar2',
+        bar: {
+          two: 'foo2'
+        }
+      },
+      word: 'monkey'
+    }
+  }
 
-  subject(:comparison) { HashDiff::Comparison.new(app_v1_properties, app_v2_properties) }
+  subject(:comparison) {
+    HashDiff::Comparison.new(app_v1_properties, app_v2_properties)
+  }
 
   describe "#diff" do
     subject { comparison.diff }
@@ -18,11 +45,11 @@ describe HashDiff::Comparison do
           nested: {
             foo: ["bar", "bar2"],
             bar: {
-              one: ["foo1", nil],
-              two: [nil, "foo2"]
+              one: ["foo1", HashDiff::NO_VALUE],
+              two: [HashDiff::NO_VALUE, "foo2"]
             }
           },
-          num:  [1, nil],
+          num:  [1, HashDiff::NO_VALUE],
           word: [nil, "monkey"]
         }
       }
@@ -57,11 +84,11 @@ describe HashDiff::Comparison do
         nested: {
           foo: "bar2",
           bar: {
-            one: nil,
+            one: HashDiff::NO_VALUE,
             two: "foo2"
           }
         },
-        num:  nil,
+        num:  HashDiff::NO_VALUE,
         word: "monkey"
       }
     }
@@ -80,7 +107,7 @@ describe HashDiff::Comparison do
           foo: "bar",
           bar: {
             one: "foo1",
-            two: nil
+            two: HashDiff::NO_VALUE
           }
         },
         num:  1,

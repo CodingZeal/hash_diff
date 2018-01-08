@@ -2,6 +2,8 @@ require "hash_diff/version"
 require "hash_diff/comparison"
 
 module HashDiff
+  class NO_VALUE; end
+
   def self.patch!
     Hash.class_eval do
       def diff(right)
