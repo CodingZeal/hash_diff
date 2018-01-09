@@ -1,4 +1,5 @@
 # HashDiff
+
 [![Build Status](https://travis-ci.org/CodingZeal/hash_diff.png?branch=master)](https://travis-ci.org/CodingZeal/hash_diff) [![Code Climate](https://codeclimate.com/github/CodingZeal/hash_diff.png)](https://codeclimate.com/github/CodingZeal/hash_diff) [![Gem Version](https://badge.fury.io/rb/hash_diff.png)](http://badge.fury.io/rb/hash_diff)
 
 Deep comparison of Ruby Hash objects
@@ -31,7 +32,8 @@ Easily find the differences between two Ruby hashes.
         one: 'foo1'
       }
     },
-    num: 1
+    num: 1,
+    favorite_restaurant: "Shoney's"
   }
 
   right = {
@@ -43,7 +45,8 @@ Easily find the differences between two Ruby hashes.
         two: 'foo2'
       }
     },
-    word: 'monkey'
+    word: 'monkey',
+    favorite_restaurant: nil
   }
 
   hash_diff = HashDiff::Comparison.new( left, right )
@@ -52,19 +55,23 @@ Easily find the differences between two Ruby hashes.
 Comparison#diff returns the left and right side differences
 
 ```ruby
-  hash_diff.diff # => { foo: ["bar", "bar2"], bar: ["foo", "foo2"], nested: { foo: ["bar", "bar2"], bar: { one: ["foo1", nil], two: [nil, "foo2"] } }, num:  [1, nil], word: [nil, "monkey"] }
+  hash_diff.diff # => { foo: ["bar", "bar2"], bar: ["foo", "foo2"], nested: { foo: ["bar", "bar2"], bar: { one: ["foo1", HashDiff::NO_VALUE], two: [HashDiff::NO_VALUE, "foo2"] } }, num:  [1, HashDiff::NO_VALUE], word: [HashDiff::NO_VALUE, "monkey"], favorite_restaurant: ["Shoney's", nil] }
 ```
+
+#### Missing keys
+
+When there is a key that exists on one side it will return `HashDiff::NO_VALUE` to represent a missing key.
 
 Comparison#left_diff returns only the left side differences
 
 ```ruby
-  hash_diff.left_diff # => { foo: "bar2", bar: "foo2", nested: { foo: "bar2", bar: { one: nil, two: "foo2" } }, num:  nil, word: "monkey" }
+  hash_diff.left_diff # => {:foo=>"bar2", :bar=>"foo2", :nested=>{:foo=>"bar2", :bar=>{:one=>HashDiff::NO_VALUE, :two=>"foo2"}}, :num=>HashDiff::NO_VALUE, :favorite_restaurant=>nil, :word=>"monkey"}
 ```
 
 Comparison#right_diff returns only the right side differences
 
 ```ruby
-  hash_diff.right_diff # => { foo: "bar", bar: "foo", nested: { foo: "bar", bar: { one: "foo1", two: nil } }, num:  1, word: nil }
+  hash_diff.right_diff # => {:foo=>"bar", :bar=>"foo", :nested=>{:foo=>"bar", :bar=>{:one=>"foo1", :two=>HashDiff::NO_VALUE}}, :num=>1, :favorite_restaurant=>"Shoney's", :word=>HashDiff::NO_VALUE}
 ```
 
 You can also use these shorthand methods
@@ -91,7 +98,7 @@ Hash#diff is not provided by default, and monkey patching is frowned upon by som
 
 Authored by the Engineering Team of [Coding ZEAL](https://codingzeal.com?utm_source=github)
 
-Copyright (c) 2017 Zeal, LLC.  Licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Copyright (c) 2017 Zeal, LLC. Licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Contributing
 
