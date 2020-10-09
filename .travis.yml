@@ -1,6 +1,7 @@
-script: "bundle exec rspec spec"
+script: "bundle exec rake"
 
 language: ruby
 
 rvm:
-  - 1.9.3
+  - 2.5
+  - 2.6
