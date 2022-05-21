@@ -34,7 +34,14 @@ module HashDiff
     end
 
     def combined_keys
-      (left.keys + right.keys).uniq
+      if hash?(left) && hash?(right) then
+        (left.keys + right.keys).uniq.sort
+      elsif array?(left) && array?(right) then
+        puts "ARRAY: #{        [0..[left.size, right.size].max].to_a}"
+        (0..[left.size, right.size].max).to_a
+      else
+        raise ArgumentError, "Don't know how to extract keys. Neither arrays nor hashes given"
+      end
     end
 
     def equal?(key)
@@ -45,13 +52,24 @@ module HashDiff
       value.is_a?(Hash)
     end
 
-    def comparable?(key)
+    def array?(value)
+      value.is_a?(Array)
+    end
+
+    def comparable_hash?(key)
       hash?(left[key]) && hash?(right[key])
     end
 
+    def comparable_array?(key)
+      array?(left[key]) && array?(right[key])
+    end
+
     def report_difference(key, reporter)
-      if comparable?(key)
+      if comparable_hash?(key)
         self.class.new(left[key], right[key]).find_differences(&reporter)
+      elsif comparable_array?(key)
+        puts "ARRAY: #{key}"
+        self.class.new(left[key], right[key]).find_differences(&reporter)        
       else
         reporter.call(
           value_with_default(left, key),
@@ -61,7 +79,8 @@ module HashDiff
     end
 
     def value_with_default(obj, key)
-      obj.fetch(key, NO_VALUE)
+      obj[key] || NO_VALUE
     end
   end
 end
+
