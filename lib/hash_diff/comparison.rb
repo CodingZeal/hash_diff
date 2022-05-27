@@ -37,7 +37,6 @@ module HashDiff
       if hash?(left) && hash?(right) then
         (left.keys + right.keys).uniq.sort
       elsif array?(left) && array?(right) then
-        puts "ARRAY: #{        [0..[left.size, right.size].max].to_a}"
         (0..[left.size, right.size].max).to_a
       else
         raise ArgumentError, "Don't know how to extract keys. Neither arrays nor hashes given"
@@ -68,7 +67,6 @@ module HashDiff
       if comparable_hash?(key)
         self.class.new(left[key], right[key]).find_differences(&reporter)
       elsif comparable_array?(key)
-        puts "ARRAY: #{key}"
         self.class.new(left[key], right[key]).find_differences(&reporter)        
       else
         reporter.call(
