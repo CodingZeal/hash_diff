@@ -1,6 +1,6 @@
 # HashDiff
 
-[![Build Status](https://travis-ci.org/CodingZeal/hash_diff.png?branch=master)](https://travis-ci.org/CodingZeal/hash_diff) [![Code Climate](https://codeclimate.com/github/CodingZeal/hash_diff.png)](https://codeclimate.com/github/CodingZeal/hash_diff) [![Gem Version](https://badge.fury.io/rb/hash_diff.png)](http://badge.fury.io/rb/hash_diff)
+[![Ruby](https://github.com/CodingZeal/hash_diff/actions/workflows/ruby.yml/badge.svg)](https://github.com/CodingZeal/hash_diff/actions/workflows/ruby.yml) [![Code Climate](https://codeclimate.com/github/CodingZeal/hash_diff.png)](https://codeclimate.com/github/CodingZeal/hash_diff) [![Gem Version](https://badge.fury.io/rb/hash_diff.png)](http://badge.fury.io/rb/hash_diff)
 
 Deep comparison of Ruby Hash objects
 
