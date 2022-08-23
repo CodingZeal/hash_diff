@@ -67,7 +67,7 @@ module HashDiff
       if comparable_hash?(key)
         self.class.new(left[key], right[key]).find_differences(&reporter)
       elsif comparable_array?(key)
-        self.class.new(left[key], right[key]).find_differences(&reporter)        
+        self.class.new(left[key], right[key]).find_differences(&reporter)
       else
         reporter.call(
           value_with_default(left, key),
@@ -77,7 +77,7 @@ module HashDiff
     end
 
     def value_with_default(obj, key)
-      obj[key] || NO_VALUE
+      obj.fetch(key, NO_VALUE)
     end
   end
 end
