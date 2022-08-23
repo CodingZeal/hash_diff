@@ -58,6 +58,8 @@ Comparison#diff returns the left and right side differences
   hash_diff.diff # => { foo: ["bar", "bar2"], bar: ["foo", "foo2"], nested: { foo: ["bar", "bar2"], bar: { one: ["foo1", HashDiff::NO_VALUE], two: [HashDiff::NO_VALUE, "foo2"] } }, num:  [1, HashDiff::NO_VALUE], word: [HashDiff::NO_VALUE, "monkey"], favorite_restaurant: ["Shoney's", nil] }
 ```
 
+You can also compare two arrays. The comparison is sensitive to the order of the elements in the array.
+
 #### Missing keys
 
 When there is a key that exists on one side it will return `HashDiff::NO_VALUE` to represent a missing key.
