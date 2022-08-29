@@ -35,7 +35,7 @@ module HashDiff
 
     def combined_keys
       if hash?(left) && hash?(right) then
-        (left.keys + right.keys).uniq.sort
+        (left.keys + right.keys).uniq
       elsif array?(left) && array?(right) then
         (0..[left.size, right.size].max).to_a
       else
