@@ -72,6 +72,19 @@ describe HashDiff::Comparison do
         it { expect(subject).to be_empty }
       end
     end
+
+    context "when hashes have both symbol and string keys" do
+      let(:app_v1_properties) { { foo: "bar" } }
+      let(:app_v2_properties) { { "foo" => "bar" } }
+      let(:diff) do
+        {
+          foo: ["bar", HashDiff::NO_VALUE],
+          "foo" => [HashDiff::NO_VALUE, "bar"]
+        }
+      end
+
+      it { expect(subject).to eq(diff) }
+    end
   end
 
   describe "#left_diff" do
