@@ -15,7 +15,7 @@ jobs:
         ruby-version: ['1.9', '2.0', '2.1', '2.2', '2.4', '2.5', '2.6', '2.7', '3.0', '3.1']
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
